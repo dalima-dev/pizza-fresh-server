@@ -26,7 +26,9 @@ export class TableService {
 
   async create(dto: CreateTableDto): Promise<Table> {
     const data: Table = { ...dto };
-    return await this.prismaService.table.create({ data }).catch(this.handleError);
+    return await this.prismaService.table
+      .create({ data })
+      .catch(this.handleError);
   }
 
   handleError(error: Error) {

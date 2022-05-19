@@ -44,7 +44,7 @@ export class TableController {
     return this.tableService.create(dto);
   }
 
-  @Patch()
+  @Patch(':id')
   @ApiOperation({
     summary: 'atualizar uma mesa',
   })
@@ -52,12 +52,12 @@ export class TableController {
     return this.tableService.update(id, dto);
   }
 
-  @Delete('id')
+  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
     summary: 'deleta uma mesa por id',
   })
   delete(@Param('id') id: string) {
     this.tableService.delete(id);
-  }
+  } 
 }
