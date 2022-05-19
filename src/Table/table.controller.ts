@@ -1,4 +1,5 @@
 import { Controller, Get, Post } from '@nestjs/common';
+import { table } from 'console';
 import { TableService } from './table.service';
 
 @Controller('table')
@@ -7,10 +8,11 @@ export class TableController {
 
   @Get()
   findAll() {
+    return this.tableService.findAll();
   }
 
   @Post()
   create(){
-    return 'cria mesa'
+    return this.tableService.create()
   }
 }
