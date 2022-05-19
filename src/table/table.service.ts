@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTableDto } from './dto/create-table.dto';
 import { UpdateTableDto } from './dto/update-table.dto';
@@ -8,25 +8,40 @@ import { Table } from './entities/table.entity';
 export class TableService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  findAll(): Promise<Table[]> {
-    return this.prismaService.table.findMany();
+  async findAll(): Promise<Table[]> {
+    return await this.prismaService.table.findMany();
   }
 
-  findOne(id: string) {
-    return this.prismaService.table.findUnique({ where: { id } });
+  async findById(id: string): Promise<Table> {
+    const record = await this.prismaService.table.findUnique({ where: { id } });
+    if (!record) {
+      throw new NotFoundException(`Registro com id ${id} nao encontrado!`);
+    }
+    return record;
   }
 
-  create(dto: CreateTableDto): Promise<Table> {
+  findOne(id: string): Promise<Table> {
+    return this.findById(id);
+  }
+
+  async create(dto: CreateTableDto): Promise<Table> {
     const data: Table = { ...dto };
-    return this.prismaService.table.create({ data });
+    return await this.prismaService.table.create({ data }).catch(this.handleError);
   }
 
-  update(id: string, dto: UpdateTableDto): Promise<Table> {
+  handleError(error: Error) {
+    console.log(error);
+    return undefined;
+  }
+
+  async update(id: string, dto: UpdateTableDto): Promise<Table> {
+    await this.findById(id);
     const data: Partial<Table> = { ...dto };
     return this.prismaService.table.update({ where: { id }, data });
   }
 
   async delete(id: string) {
+    await this.findById(id);
     await this.prismaService.table.delete({ where: { id } });
   }
 }
