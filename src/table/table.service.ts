@@ -5,16 +5,18 @@ import { Table } from './entities/table.entity';
 
 @Injectable()
 export class TableService {
-  tables: Table[] = [];
-
   constructor(private readonly prismaService: PrismaService) {}
 
-  findAll() {
+  findAll(): Promise<Table[]> {
     return this.prismaService.table.findMany();
   }
-  create(createTableDto: CreateTableDto) {
-    const table: Table = { id: 'random_id', ...createTableDto };
-    this.tables.push(table);
-    return table;
+
+  findOne(id: string) {
+    return this.prismaService.table.findUnique({ where: { id } });
+  }
+
+  create(dto: CreateTableDto): Promise<Table> {
+    const data: Table = { ...dto };
+    return this.prismaService.table.create({ data });
   }
 }
