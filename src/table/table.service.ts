@@ -7,7 +7,7 @@ export class TableService {
   tables: Table[] = [];
 
   findAll() {
-    return 'findall';
+    return this.tables;
   }
   create(createTableDto: CreateTableDto) {
     const table: Table = { id: 'random_id', ...createTableDto };
