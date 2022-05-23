@@ -25,6 +25,7 @@ export class UserService {
   }
 
   async create(dto: CreateUserDto): Promise<User> {
+    delete dto.confirmPassword;
     const data: User = { ...dto };
     return await this.prismaService.user
       .create({ data })
@@ -37,6 +38,7 @@ export class UserService {
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<User> {
+    delete dto.confirmPassword;
     await this.findById(id);
     const data: Partial<User> = { ...dto };
     return this.prismaService.user.update({ where: { id }, data });
