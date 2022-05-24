@@ -11,9 +11,34 @@ export class OrderService {
   create(dto: CreateOrderDto) {
     const data: Prisma.OrderCreateInput = {
       user: { connect: { id: dto.userId } },
-      table: {connect: {number: dto.tableNumber}}
+      table: { connect: { number: dto.tableNumber } },
+      products: {
+        connect: [...dto.products.map((productId) => ({ id: productId }))],
+      },
     };
-    this.prismaService.order.create({ data }).catch(handleError);
+    this.prismaService.order
+      .create({
+        data,
+        select: {
+          id: true,
+          table: {
+            select: {
+              number: true,
+            },
+          },
+          user: {
+            select: {
+              name: true,
+            },
+          },
+          products: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      })
+      .catch(handleError);
   }
 
   findAll() {
