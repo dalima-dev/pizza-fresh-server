@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -11,14 +12,30 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
+  private userSelect = {
+    id: true,
+    nickname: true,
+    name: true,
+    password: false,
+    image: true,
+    createdAt: true,
+    updatedAt: true,
+  };
+
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll(): Promise<User[]> {
-    return await this.prismaService.user.findMany();
+    const list = await this.prismaService.user.findMany({
+      select: this.userSelect,
+    });
+    return list;
   }
 
   async findById(id: string): Promise<User> {
-    const record = await this.prismaService.user.findUnique({ where: { id } });
+    const record = await this.prismaService.user.findUnique({
+      where: { id },
+      select: this.userSelect,
+    });
     if (!record) {
       throw new NotFoundException(`Registro com id ${id} nao encontrado!`);
     }
@@ -33,18 +50,24 @@ export class UserService {
     if (dto.password != dto.confirmPassword) {
       throw new BadRequestException('As senhas informadas nao sao iguais!');
     }
-
     delete dto.confirmPassword;
     const data: User = {
       ...dto,
       password: await bcrypt.hash(dto.password, 10),
     };
-    return this.prismaService.user.create({ data }).catch(this.handleError);
+    return this.prismaService.user
+      .create({ data, select: this.userSelect })
+      .catch(this.handleError);
   }
 
-  handleError(error: Error) {
-    console.log(error);
-    return undefined;
+  handleError(error: Error): undefined {
+    const errorLines = error.message?.split('\n');
+    const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
+    if (!lastErrorLine) console.log(error);
+
+    throw new UnprocessableEntityException(
+      lastErrorLine || 'Algum erro ao executar a operacao',
+    );
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<User> {
@@ -59,7 +82,11 @@ export class UserService {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, 10);
     }
-    return this.prismaService.user.update({ where: { id }, data });
+    return this.prismaService.user.update({
+      where: { id },
+      data,
+      select: this.userSelect,
+    });
   }
 
   async delete(id: string) {
