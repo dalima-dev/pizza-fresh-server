@@ -42,10 +42,43 @@ export class OrderService {
   }
 
   findAll() {
-    return `This action returns all order`;
+    return this.prismaService.order.findMany({
+      select: {
+        id: true,
+        table: {
+          select: {
+            number: true,
+          },
+        },
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        _count: {
+          select: {
+            products: true,
+          },
+        },
+      },
+    });
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} order`;
+    return this.prismaService.order.findUnique({
+      where: { id },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        table: {
+          select: {
+            number: true,
+          },
+        },
+      },
+    });
   }
 }
