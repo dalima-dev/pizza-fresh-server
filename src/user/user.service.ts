@@ -22,17 +22,17 @@ export class UserService {
     updatedAt: true,
   };
 
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(): Promise<User[]> {
-    const list = await this.prismaService.user.findMany({
+    const list = await this.prisma.user.findMany({
       select: this.userSelect,
     });
     return list;
   }
 
   async findById(id: string): Promise<User> {
-    const record = await this.prismaService.user.findUnique({
+    const record = await this.prisma.user.findUnique({
       where: { id },
       select: this.userSelect,
     });
@@ -55,7 +55,7 @@ export class UserService {
       ...dto,
       password: await bcrypt.hash(dto.password, 10),
     };
-    return this.prismaService.user
+    return this.prisma.user
       .create({ data, select: this.userSelect })
       .catch(handleError);
   }
@@ -72,7 +72,7 @@ export class UserService {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, 10);
     }
-    return this.prismaService.user.update({
+    return this.prisma.user.update({
       where: { id },
       data,
       select: this.userSelect,
@@ -81,6 +81,6 @@ export class UserService {
 
   async delete(id: string) {
     await this.findById(id);
-    await this.prismaService.user.delete({ where: { id } });
+    await this.prisma.user.delete({ where: { id } });
   }
 }

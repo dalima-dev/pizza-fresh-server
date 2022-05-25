@@ -7,14 +7,14 @@ import { Table } from './entities/table.entity';
 
 @Injectable()
 export class TableService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(): Promise<Table[]> {
-    return await this.prismaService.table.findMany();
+    return await this.prisma.table.findMany();
   }
 
   async findById(id: string): Promise<Table> {
-    const record = await this.prismaService.table.findUnique({ where: { id } });
+    const record = await this.prisma.table.findUnique({ where: { id } });
     if (!record) {
       throw new NotFoundException(`Registro com id ${id} nao encontrado!`);
     }
@@ -27,19 +27,19 @@ export class TableService {
 
   async create(dto: CreateTableDto): Promise<Table> {
     const data: Table = { ...dto };
-    return await this.prismaService.table.create({ data }).catch(handleError);
+    return await this.prisma.table.create({ data }).catch(handleError);
   }
 
   async update(id: string, dto: UpdateTableDto): Promise<Table> {
     await this.findById(id);
     const data: Partial<Table> = { ...dto };
-    return this.prismaService.table
+    return this.prisma.table
       .update({ where: { id }, data })
       .catch(handleError);
   }
 
   async delete(id: string) {
     await this.findById(id);
-    await this.prismaService.table.delete({ where: { id } });
+    await this.prisma.table.delete({ where: { id } });
   }
 }

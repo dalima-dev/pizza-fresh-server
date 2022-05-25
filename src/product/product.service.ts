@@ -7,14 +7,14 @@ import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(): Promise<Product[]> {
-    return await this.prismaService.product.findMany();
+    return await this.prisma.product.findMany();
   }
 
   async findById(id: string): Promise<Product> {
-    const record = await this.prismaService.product.findUnique({
+    const record = await this.prisma.product.findUnique({
       where: { id },
     });
     if (!record) {
@@ -29,19 +29,19 @@ export class ProductService {
 
   async create(dto: CreateProductDto): Promise<Product> {
     const data: Product = { ...dto };
-    return await this.prismaService.product.create({ data }).catch(handleError);
+    return await this.prisma.product.create({ data }).catch(handleError);
   }
 
   async update(id: string, dto: UpdateProductDto): Promise<Product> {
     await this.findById(id);
     const data: Partial<Product> = { ...dto };
-    return this.prismaService.product
+    return this.prisma.product
       .update({ where: { id }, data })
       .catch(handleError);
   }
 
   async delete(id: string) {
     await this.findById(id);
-    await this.prismaService.product.delete({ where: { id } });
+    await this.prisma.product.delete({ where: { id } });
   }
 }

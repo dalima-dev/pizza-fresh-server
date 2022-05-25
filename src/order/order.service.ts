@@ -6,7 +6,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   create(dto: CreateOrderDto) {
     const data: Prisma.OrderCreateInput = {
@@ -23,7 +23,7 @@ export class OrderService {
       },
     };
 
-    this.prismaService.order
+    this.prisma.order
       .create({
         data,
         select: {
@@ -53,7 +53,7 @@ export class OrderService {
   }
 
   findAll() {
-    return this.prismaService.order.findMany({
+    return this.prisma.order.findMany({
       select: {
         id: true,
         table: {
@@ -76,7 +76,7 @@ export class OrderService {
   }
 
   findOne(id: string) {
-    return this.prismaService.order.findUnique({
+    return this.prisma.order.findUnique({
       where: { id },
       include: {
         user: {
