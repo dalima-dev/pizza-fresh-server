@@ -59,5 +59,5 @@ export class TableController {
   })
   delete(@Param('id') id: string) {
     this.tableService.delete(id);
-  } 
+  }
 }

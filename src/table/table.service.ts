@@ -33,9 +33,7 @@ export class TableService {
   async update(id: string, dto: UpdateTableDto): Promise<Table> {
     await this.findById(id);
     const data: Partial<Table> = { ...dto };
-    return this.prisma.table
-      .update({ where: { id }, data })
-      .catch(handleError);
+    return this.prisma.table.update({ where: { id }, data }).catch(handleError);
   }
 
   async delete(id: string) {
