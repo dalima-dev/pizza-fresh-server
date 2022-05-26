@@ -31,7 +31,7 @@ This API is for a pizza's restaurant where you can create users, products and ma
 >
 > ```
 > 	DATABASE_URL="postgresql://postgres:root@localhost:5432/pizza-fresh?schema=public"
->     JWT_SECRET="pehVFlLgL7"
+>   JWT_SECRET="pehVFlLgL7"
 > ```
 >
 > Finally, generate the prisma models into your postgresql database with command:
