@@ -1,73 +1,60 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Pizza Fresh Server API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This API is for a pizza's restaurant where you can create users, products and make orders. It uses Postgresql as database and Prisma to manipulate it.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Prerequisites
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+> - **Node** - [Node Download](https://nodejs.org/pt-br/download/)
+> - **NPM** - [Npm Download](https://www.npmjs.com/package/download)
 
 ## Installation
 
-```bash
-$ npm install
-```
+> Clone this project on your computer with command:
+>
+> ```
+> 	git clone https://github.com/dalima-dev/pizza-fresh-server.git
+> ```
+>
+> Access project's folder on your terminal:
+>
+> ```
+> 	cd [Project's name]
+> ```
+>
+> Do command:
+>
+> ```
+> 	npm install
+> ```
+>
+> Turn on your database server and fill the environment variables, as example below:
+>
+> ```
+> 	DATABASE_URL="postgresql://postgres:root@localhost:5432/pizza-fresh?schema=public"
+>     JWT_SECRET="pehVFlLgL7"
+> ```
+>
+> Finally, generate the prisma models into your postgresql database with command:
+>
+> ```
+>   npx prisma db push
+> ```
 
-## Running the app
+## Execution
 
-```bash
-# development
-$ npm run start
+> After following steps above, run:
+>
+> ```
+> 	npm start
+> ```
+>
+> Now application is available to use. Access http://localhost:3000/api for swagger docs.
 
-# watch mode
-$ npm run start:dev
+## Links
 
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+> - [NestJS Docs](https://docs.nestjs.com/)
+> - [Prisma Docs](https://www.prisma.io/docs/)
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+> Do What The F\*ck You Want To Public License (WTFPL)
